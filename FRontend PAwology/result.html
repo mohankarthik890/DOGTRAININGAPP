@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Training Results</title>
+    <style>
+               body {
+            margin: 0;
+            font-family: 'Poly', sans-serif;
+            background-color: #FDF6E8;
+            min-height: 100vh;
+            background-image: url("image 8.png");
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            background: #A2845E;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width : 100%
+        }
+
+        .header img {
+            height: 100px;
+        }
+
+        .header nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 18px;
+            text-transform: uppercase;
+            padding: 10px 15px;
+            border-radius: 5px;
+        }
+
+        .header nav a:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .header nav a.logout {
+            background: #52453C;
+            padding: 10px 20px;
+            border-radius: 25px;
+        }
+
+        .header nav a.logout:hover {
+            background: #3a332d;
+        }
+        .finish-training-button {
+        background: #A2845E; /* Same color as footer */
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 20px;
+        cursor: pointer;
+        transition: background 0.3s ease;
+        margin-top: 20px;
+        width: 100%;
+        max-width: 200px;
+        text-align: center;
+        font-weight: bold;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .finish-training-button:hover {
+        background: #8B6D4D;
+    }
+
+
+        /* Main Layout */
+        .content {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 20px;
+            flex: 1;
+        }
+
+        /* Left: Commands */
+        .commands {
+            width: 40%;
+            background: #e8dac9;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #5A4333;
+            font-size: 24px;
+            text-align: center;
+        }
+
+        .command-item {
+            margin-bottom: 15px;
+            padding: 10px;
+            background: #fff;
+            border: 1px solid #C1A486;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .command-item:hover {
+            background: #d9c1a7;
+        }
+
+        /* Right: Video */
+        .video-container {
+            width: 45%;
+            text-align: center;
+        }
+
+        iframe {
+            width: 100%;
+            height: 315px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Footer */
+        .footer {
+            background: #A2845E;
+            padding: 20px;
+            text-align: center;
+            color: white;
+            margin-top: auto; /* Push footer to bottom */
+        }
+
+        .footer a {
+            color: #FBF3EA;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            color: #E3DFD6;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .content {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .commands, .video-container {
+                width: 100%;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <header class="header">
+        <img src="logo.png" alt="Pawology Logo">
+        <nav>
+            <a href="/test/homepage.html">Home</a>
+            <a href="connect.html">Connect</a>
+            <a href="/test/logout.html" class="logout">Logout</a>
+        </nav>
+    </header>
+
+    <section class="content">
+        <!-- Commands Section -->
+        <div class="commands">
+            <h1>Training Commands</h1>
+            <div id="commands-list">
+                <!-- Commands will be inserted here -->
+            </div>
+        </div>
+
+        <!-- Video Section -->
+        <div class="video-container">
+            <h1>Training Video</h1>
+            <iframe id="training-video" src="" frameborder="0" allowfullscreen></iframe>
+            <button class="finish-training-button" onclick="finishTraining()">Finish Training</button>
+        </div>
+        
+
+    </section>
+
+    <footer class="footer">
+        <p>E-mail: <a href="mailto:pawologycare@gmail.com">pawologycare@gmail.com</a></p>
+        <p>Pawology India</p>
+    </footer>
+
+    <script>
+        window.onload = function() {
+            // Get URL parameters
+            const params = new URLSearchParams(window.location.search);
+            const breedId = params.get('breed_id');
+            const methodId = params.get('method_id');
+
+            // Check if breed_id and method_id are available
+            if (!breedId || !methodId) {
+                alert("Missing breed or method ID!");
+                return;
+            }
+
+            // Fetch training data from PHP API
+            fetch(`trainingmaterials.php?breed_id=${breedId}&method_id=${methodId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (!data.data || data.data.length === 0) {
+                        document.getElementById('commands-list').innerHTML = "<p>No training materials found.</p>";
+                        return;
+                    }
+
+                    let commandsHTML = '';
+                    let firstVideo = '';
+
+                    data.data.forEach((item, index) => {
+                        commandsHTML += `<div class="command-item" onclick="playVideo('${item.video_url}')">
+                            <b>Training ${item.day_number}:</b> ${item.command}
+                        </div>`;
+                        
+                        // Load the first video by default
+                        if (index === 0) {
+                            firstVideo = item.video_url;
+                        }
+                    });
+
+                    // Insert commands into the HTML
+                    document.getElementById('commands-list').innerHTML = commandsHTML;
+                    // Set the first video as the default
+                    document.getElementById('training-video').src = firstVideo;
+                })
+                .catch(error => {
+                    console.error("Error fetching training materials:", error);
+                    document.getElementById('commands-list').innerHTML = "<p>Error fetching training materials.</p>";
+                });
+        };
+        function finishTraining() {
+            
+            const params = new URLSearchParams(window.location.search);
+            const methodId = params.get('method_id');
+
+        alert("Training finished! Redirecting to Reviewpage...");
+        window.location.href = `review.html?method_id=${methodId}`;
+    }
+
+        // Function to change video when a command is clicked
+        function playVideo(url) {
+            document.getElementById('training-video').src = url;
+        }
+    </script>
+</body>
+</html>

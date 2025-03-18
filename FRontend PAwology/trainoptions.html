@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personalized Dog Training</title>
+    <style>
+      body {
+            margin: 0;
+            font-family: 'Poly', sans-serif;
+            background-color: #FDF6E8;
+            background-image: url('image8.png'); /* Ensure this file exists */
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        body {
+    margin: 0;
+    font-family: 'Poly', sans-serif;
+    background-image: url('image 8.png'); /* Replace with your image path */
+    background-size: cover; /* Ensures the image covers the full page */
+    background-position: center; /* Centers the image */
+    background-repeat: no-repeat; /* Prevents repetition */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+        /* Header Styling */
+        .header {
+            background: #A2845E;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            height: 100px;
+            width: auto;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            text-transform: uppercase;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .logout {
+            background: #52453C;
+            padding: 10px 20px;
+            border-radius: 25px;
+        }
+
+        .logout:hover {
+            background: #3a332d;
+        }
+
+        /* Mobile Navigation */
+        .menu-toggle {
+            display: none;
+            font-size: 24px;
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+
+        /* Container Styling */
+        .container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        .content {
+            background-color: #E6DDD6;
+            padding: 40px;
+            border-radius: 20px;
+            max-width: 800px;
+            width: 100%;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #181818;
+            font-size: 32px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .training-options {
+            margin-top: 20px;
+        }
+
+        .training-option {
+            background: #DDAC50;
+            padding: 15px 30px;
+            border-radius: 30px;
+            font-size: 20px;
+            text-transform: uppercase;
+            color: black;
+            margin: 10px 0;
+            cursor: pointer;
+            border: none;
+            transition: background 0.3s ease;
+        }
+
+        .training-option:hover {
+            background: #c99942;
+        }
+
+        /* Footer Styling */
+        .footer {
+            background: #A2845E;
+            padding: 20px;
+            text-align: center;
+            color: white;
+            width: 100%;
+            margin-top: auto;
+        }
+
+        .footer a {
+            color: #FBF3EA;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        .footer a:hover {
+            color: #E3DFD6;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                gap: 15px;
+                margin-top: 10px;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-links.show {
+                display: flex;
+            }
+
+            .content {
+                padding: 20px;
+            }
+           
+
+            h1 {
+                font-size: 28px;
+            }
+
+            .training-option {
+                font-size: 18px;
+                padding: 12px 20px;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <header class="header">
+        <img src="logo.png" alt="Pawology Logo" class="logo">
+        <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+        <nav class="nav-links">
+            <a href="/test/homepage.html">Home</a>
+            <a href="#">Personalized Training</a>
+            <a href="connect.html">Connect</a>
+            <a href="/test/logout.html" class="logout">Logout</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="content">
+            <h1>Personalized Dog Training</h1>
+            <div class="training-options">
+                <button class="training-option" onclick="handleTrainingOption('in-person')">In-Person Training</button>
+                <button class="training-option" onclick="handleTrainingOption('online')">Online Manual Training</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>E-mail: <a href="mailto:pawologycare@gmail.com">pawologycare@gmail.com</a></p>
+        <p>Pawology India</p>
+    </footer>
+
+    <script>
+        function handleTrainingOption(trainingType) {
+            const params = new URLSearchParams(window.location.search);
+            const breedId = params.get('breed_id');
+            const methodId = params.get('method_id');
+            if (trainingType === 'in-person') {
+                window.location.href = "booktrainer.html";
+            } else {
+                alert('Redirecting to in-person training...');
+                // Redirect to in-person training page if needed
+            }
+
+            if (trainingType === 'online') {
+                window.location.href = `result.html?breed_id=${breedId}&method_id=${methodId}`;
+            } else {
+                alert('Redirecting to in-person training...');
+                // Redirect to in-person training page if needed
+            }
+        }
+
+        function toggleMenu() {
+            document.querySelector('.nav-links').classList.toggle('show');
+        }
+    </script>
+</body>
+</html>

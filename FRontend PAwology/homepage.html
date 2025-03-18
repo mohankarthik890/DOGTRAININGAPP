@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pawology India - Personalized Dog Training</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Poly', sans-serif;
+            background: white;
+            background-image: url("image\ 8.png");
+            background-size: contain;
+        }
+
+        .container {
+            margin: 0 auto;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Header Styling */
+        .header {
+            background: #A2845E;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .header img {
+            height: 100px;
+            width: auto; /* Ensure the logo maintains its aspect ratio */
+        }
+
+        .header nav {
+            display: flex;
+            align-items: center;
+            gap: 50px; /* Add gap between navigation links */
+        }
+
+        .header nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            text-transform: uppercase;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+        }
+
+        .header nav a:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .header nav a.logout {
+            background: #52453C; /* Dark brown background for logout */
+            padding: 10px 20px;
+            border-radius: 25px;
+        }
+
+        .header nav a.logout:hover {
+            background: #3a332d; /* Darker brown on hover */
+        }
+
+        /* Content Section */
+        .content {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px;
+            background: #E6DDD6;
+            border-radius: 20px;
+            margin: 20px;
+            flex: 1; /* Ensure content takes up remaining space */
+        }
+
+        .content h2 {
+            color: #52463C;
+            font-family: 'Poller One', serif;
+            text-transform: uppercase;
+        }
+
+        .content p {
+            color: #52463C;
+            font-family: 'Poly', sans-serif;
+        }
+
+        .content-image img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Footer Styling */
+        .footer {
+            background: #A2845E;
+            padding: 20px;
+            text-align: center;
+            color: white;
+            width: 100%;
+        }
+
+        .footer a {
+            color: #FBF3EA;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        .footer a:hover {
+            color: #E3DFD6;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .header nav {
+                flex-direction: column;
+                gap: 10px; /* Adjust gap for mobile view */
+            }
+
+            .header nav a {
+                display: block;
+                margin: 5px 0;
+            }
+
+            .content {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <img src="logo.png" alt="Pawology Logo">
+            <nav>
+                <a href="#">Home</a>
+                <a href="/test/pdogtrain.html">Personalized Dog Training</a>
+                <a href="connect.html">Connect</a>
+                <a href="/test/profile.html" class="profile">Profile</a>
+                <a href="/test/logout.html" class="logout">Logout</a>
+            </nav>
+        </header>
+
+        <section class="content">
+            <div class="content-text">
+                <h2>Personal Dog Training</h2>
+                <p>Training programs made just for your dog.</p>
+                <h2>Health Tips by Breed</h2>
+                <p>Get medical advice tailored to your dog’s breed.</p>
+                <h2>Solve Behavior Issues</h2>
+                <p>Easy solutions for barking, chewing, and more.</p>
+                <h2>Upcoming Features</h2>
+                <p>New tools and tips coming soon!</p>
+                <h2>Expert Care You Can Trust</h2>
+                <p>Helping dogs live happy, healthy lives.</p>
+            </div>
+            <div class="content-image">
+                <img src="image 10.png" alt="Dog Training Image">
+            </div>
+        </section>
+
+        <footer class="footer">
+            <p>E-mail: <a href="mailto:pawologycare@gmail.com">pawologycare@gmail.com</a></p>
+            <p>Pawology India</p>
+        </footer>
+    </div>
+</body>
+</html>

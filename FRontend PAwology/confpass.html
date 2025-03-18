@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reset Password</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            font-family: Poppins, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: rgb(233, 203, 169);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .Container {
+            width: 400px;
+            padding: 30px;
+            background: white;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            text-align: center;
+        }
+        .Container img {
+            width: 150px;
+            margin-bottom: 20px;
+        }
+        .Text {
+            font-size: 24px;
+            font-weight: 500;
+            color: #A2845E;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+        .InputField {
+            width: 92%;
+            height: 40px;
+            padding: 0 10px;
+            background: rgba(196, 196, 196, 0);
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+            border-radius: 12px;
+            border: 1px solid rgba(0, 0, 0, 0.25);
+            outline: none;
+            font-size: 14px;
+            font-family: Poppins;
+            text-align: center;
+            color: #636364;
+            margin-bottom: 15px;
+        }
+        .Button {
+            width: 100%;
+        }
+        .SubmitBtn {
+            width: 100%;
+            height: 45px;
+            background: #A2845E;
+            box-shadow: 0px 4px 10px rgba(233, 68, 75, 0.25);
+            border-radius: 12px;
+            text-align: center;
+            line-height: 45px;
+            color: white;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .SubmitBtn:hover {
+            background: #8c6d4a;
+        }
+        .message {
+            font-size: 14px;
+            color: red;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="Container">
+        <img src="logo.png" alt="Logo">
+        <div class="Text">Reset Password</div>
+        
+        <input type="password" id="newPassword" class="InputField" placeholder="New Password">
+        <input type="password" id="confirmPassword" class="InputField" placeholder="Confirm Password">
+        
+        <div class="Button">
+            <div class="SubmitBtn" id="resetPassword">RESET PASSWORD</div>
+        </div>
+
+        <div class="message" id="message"></div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $('#resetPassword').click(function () {
+                var newPassword = $('#newPassword').val().trim();
+                var confirmPassword = $('#confirmPassword').val().trim();
+                var email = localStorage.getItem('email'); // Retrieve stored email
+                
+                if (!email) {
+                    $('#message').text('Session expired. Please request OTP again.').css('color', 'red');
+                    return;
+                }
+
+                if (newPassword === '' || confirmPassword === '') {
+                    $('#message').text('Please fill out all fields').css('color', 'red');
+                    return;
+                }
+
+                if (newPassword !== confirmPassword) {
+                    $('#message').text('Passwords do not match').css('color', 'red');
+                    return;
+                }
+                
+                $.ajax({
+                    url: 'resetpassword.php',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ email: email, password: newPassword }),
+                    success: function (response) {
+                        if (response.success) {
+                            $('#message').text('Password reset successful! Redirecting to login...').css('color', 'green');
+                            setTimeout(() => {
+                                window.location.href = 'pdogtrain.html';
+                            }, 2000);
+                        } else {
+                            $('#message').text(response.message).css('color', 'red');
+                        }
+                    },
+                    error: function () {
+                        $('#message').text('Error resetting password. Please try again.').css('color', 'red');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

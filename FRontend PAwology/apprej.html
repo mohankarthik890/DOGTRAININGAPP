@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pawology India - Approve/Reject Trainer Applications</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Poly', sans-serif;
+            background: white;
+            background-image: url("image 8.png");
+            background-size: contain;
+        }
+        .container {
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .header {
+            background: #A2845E;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+        .header img {
+            height: 100px;
+            width: auto;
+        }
+        .header nav {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+        .header nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            text-transform: uppercase;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+        }
+        .header nav a.logout {
+            background: #52453C;
+            padding: 10px 20px;
+            border-radius: 25px;
+        }
+        .applications-table {
+            padding: 20px;
+            background: #E6DDD6;
+            border-radius: 20px;
+            margin: 20px;
+            flex: 1;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #52453C;
+            text-align: left;
+        }
+        th {
+            background-color: #A2845E;
+            color: white;
+        }
+        .action-buttons button {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        .action-buttons button.approve { background: #4CAF50; color: white; }
+        .action-buttons button.reject { background: #f44336; color: white; }
+        .footer {
+            background: #A2845E;
+            padding: 20px;
+            text-align: center;
+            color: white;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <img src="logo.png" alt="Pawology Logo">
+            <nav>
+                <a href="adminhome.html">Home</a>
+                <a href="/test/logout.html" class="logout">Logout</a>
+            </nav>
+        </header>
+        <section class="applications-table">
+            <h2>Trainer Applications</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>city</th>
+                        <th>state</th>
+                        <th>Qualification</th>
+                        <th>Experience</th>
+                        <th>Message</th>
+                        <th>Certification</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="applicationsTable"></tbody>
+            </table>
+        </section>
+        <footer class="footer">
+            <p>Email: <a href="mailto:pawologycare@gmail.com">pawologycare@gmail.com</a></p>
+            <p>Pawology India</p>
+        </footer>
+    </div>
+    <script>
+       document.addEventListener("DOMContentLoaded", function() {
+    fetch("fetch_trainers.php")
+        .then(response => response.json())
+        .then(data => {
+            if (!data.success) {
+                console.error("Error fetching applications:", data.error || data.message);
+                return;
+            }
+
+            let table = document.getElementById("applicationsTable");
+            data.applications.forEach(app => {
+    let row = table.insertRow();
+    row.innerHTML = `
+        <td>${app.name}</td>
+        <td>${app.email}</td>
+        <td>${app.phone}</td>
+        <td>${app.city}</td>
+        <td>${app.state}</td>
+        <td>${app.qualification}</td>
+        <td>${app.experience_rating || "N/A"}</td>
+        <td>${app.message}</td>
+        <td>
+            ${app.certification_path ? `<a href="${app.certification_path}" target="_blank">View</a>` : 'No certificate available'}
+        </td>
+        <td id="status-${app.trainer_id}">${app.status}</td>
+        <td class="action-buttons">
+            <button class="approve" onclick="updateStatus(${app.trainer_id}, 'Approved')">Approve</button>
+            <button class="reject" onclick="updateStatus(${app.trainer_id}, 'Rejected')">Reject</button>
+        </td>
+    `;
+});
+        })
+        .catch(error => console.error("Error fetching applications:", error));
+});
+
+        function updateStatus(trainer_id, status) {
+            if (confirm(`Are you sure you want to ${status.toLowerCase()} this application?`)) {
+                fetch('update_status.php', {
+                    method: 'POST',
+                    body: new URLSearchParams({ 
+                        trainer_id: trainer_id, 
+                        status: status 
+                    }),
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+                })
+                .then(response => response.text())  // Get raw response
+                .then(data => {
+                    console.log("Raw Response from Server:", data); // Debug response
+                    
+                    try {
+                        let jsonData = JSON.parse(data);  // Try parsing JSON
+                        console.log("Parsed Response:", jsonData);
+
+                        if (jsonData.success === true) {  
+                            alert("Status updated successfully!"); 
+                            document.getElementById(`status-${trainer_id}`).innerText = status;
+                        } else {
+                            alert("Failed to update status: " + (jsonData.error || "Unknown error"));
+                        }
+                    } catch (e) {
+                        console.error("JSON Parsing Error:", e);
+                        alert("Server returned invalid JSON: " + data);
+                    }
+                })
+                .catch(error => {
+                    console.error("Fetch Error:", error);
+                    alert("Network error: " + error);
+                });
+            }
+        }
+    </script>
+</body>
+</html>

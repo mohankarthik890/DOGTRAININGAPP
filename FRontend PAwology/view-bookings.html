@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pawology India - View Bookings</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Poly', sans-serif;
+            background: white;
+            background-image: url("image\ 8.png");
+            background-size: contain;
+        }
+
+        .container {
+            margin: 0 auto;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: #A2845E;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .header img {
+            height: 100px;
+            width: auto;
+        }
+
+        .header nav {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+
+        .header nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            text-transform: uppercase;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+        }
+
+        .header nav a:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .header nav a.logout {
+            background: #52453C;
+            padding: 10px 20px;
+            border-radius: 25px;
+        }
+
+        .header nav a.logout:hover {
+            background: #3a332d;
+        }
+
+        .table-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px;
+            flex-grow: 1; /* Ensures the table container takes up remaining space */
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            border: 1px solid #A2845E;
+            text-align: center;
+        }
+
+        th {
+            background: #D4BBA3;
+            font-size: 18px;
+        }
+
+        .footer {
+            background: #A2845E;
+            padding: 20px;
+            text-align: center;
+            color: white;
+            width: 100%;
+            margin-top: auto; /* Pushes the footer to the bottom */
+        }
+
+        .footer a {
+            color: #FBF3EA;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        .footer a:hover {
+            color: #E3DFD6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <img src="logo.png" alt="Pawology Logo">
+            <nav>
+                <a href="#">Home</a>
+                <a href="#">Personalized Dog Training</a>
+                <a href="#">Connect</a>
+                <a href="/test/logout.html" class="logout">Logout</a>
+            </nav>
+        </header>
+
+        <div class="table-container">
+            <h2>All Bookings</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Booking ID</th>
+                        <th>User ID</th>
+                        <th>State</th>
+                        <th>City</th>
+                        <th>Address</th>
+                        <th>Phone</th>
+                        <th>Date</th>
+                        <th>Package</th>
+                        <th>Status</th>
+                        <th>Trainer ID</th>
+                    </tr>
+                </thead>
+                <tbody id="allBookings"></tbody>
+            </table>
+        </div>
+
+        <footer class="footer">
+            <p>E-mail: <a href="mailto:pawologycare@gmail.com">pawologycare@gmail.com</a></p>
+            <p>Pawology India</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            fetch("fetch_requests.php")
+                .then(response => response.json())
+                .then(data => {
+                    let table = document.getElementById("allBookings");
+                    data.forEach(booking => {
+                        let row = table.insertRow();
+                        row.innerHTML = `
+                            <td>${booking.booking_id}</td>
+                            <td>${booking.user_id}</td>
+                            <td>${booking.state}</td>
+                            <td>${booking.city}</td>
+                            <td>${booking.address}</td>
+                            <td>${booking.phone_number}</td>
+                            <td>${booking.date}</td>
+                            <td>${booking.package_name}</td>
+                            <td>${booking.status}</td>
+                            <td>${booking.trainer_id || 'Not Assigned'}</td>
+                        `;
+                    });
+                });
+        });
+    </script>
+</body>
+</html>

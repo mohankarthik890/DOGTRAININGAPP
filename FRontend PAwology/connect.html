@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pawology India - Connect</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Poly', sans-serif;
+            background: white;
+            background-image: url("image 8.png");
+            background-size: contain;
+        }
+
+        .container {
+            margin: 0 auto;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Header Styling */
+        .header {
+            background: #A2845E;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .header img {
+            height: 100px;
+            width: auto; /* Ensure the logo maintains its aspect ratio */
+        }
+
+        .header nav {
+            display: flex;
+            align-items: center;
+            gap: 50px; /* Add gap between navigation links */
+        }
+
+        .header nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            text-transform: uppercase;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+        }
+
+        .header nav a:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .header nav a.logout {
+            background: #52453C; /* Dark brown background for logout */
+            padding: 10px 20px;
+            border-radius: 25px;
+        }
+
+        .header nav a.logout:hover {
+            background: #3a332d; /* Darker brown on hover */
+        }
+
+        /* Connect Section Styling */
+        .connect-section {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            padding: 20px;
+            background: #E6DDD6;
+            border-radius: 20px;
+            margin: 20px;
+            flex: 1; /* Ensure content takes up remaining space */
+        }
+
+        .connect-section h2 {
+            color: #52453C;
+            text-align: center;
+            text-transform: uppercase;
+        }
+
+        .connect-section .customer-care, .connect-section .become-trainer {
+            background: #d9c6ab;
+            color: rgb(0, 0, 0);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .connect-section .customer-care h3, .connect-section .become-trainer h3 {
+            margin: 0;
+            font-size: 18px;
+            text-transform: uppercase;
+        }
+
+        .connect-section .customer-care p, .connect-section .become-trainer p {
+            margin: 10px 0;
+        }
+
+        .connect-section .customer-care a {
+            color: #FBF3EA;
+            text-decoration: none;
+        }
+
+        .connect-section .customer-care a:hover {
+            color: #E3DFD6;
+        }
+
+        .connect-section .become-trainer form {
+            display: inline flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .connect-section .become-trainer form input, .connect-section .become-trainer form textarea {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #52453C;
+            font-family: 'Poly', sans-serif;
+        }
+
+        .connect-section .become-trainer form button {
+            background: #52453C;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .connect-section .become-trainer form button:hover {
+            background: #3a332d;
+        }
+
+        /* Footer Styling */
+        .footer {
+            background: #A2845E;
+            padding: 20px;
+            text-align: center;
+            color: white;
+            width: 100%;
+        }
+
+        .footer a {
+            color: #FBF3EA;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        .footer a:hover {
+            color: #E3DFD6;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .header nav {
+                flex-direction: column;
+                gap: 10px; /* Adjust gap for mobile view */
+            }
+
+            .header nav a {
+                display: block;
+                margin: 5px 0;
+            }
+
+            .connect-section {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <img src="logo.png" alt="Pawology Logo">
+            <nav>
+                <a href="homepage.html">Home</a>
+                <a href="/test/pdogtrain.html">Personalized Dog Training</a>
+                <a href="#">Connect</a>
+                <a href="/test/logout.html" class="logout">Logout</a>
+            </nav>
+        </header>
+
+        <!-- Connect Section -->
+        <section class="connect-section">
+            <h2>Connect With Us</h2>
+
+            <!-- Customer Care Section -->
+            <div class="customer-care">
+                <h3>Customer Care</h3>
+                <p>For any inquiries or support, please reach out to us:</p>
+                <p>Email: <a href="mailto:pawologycare@gmail.com">pawologycare@gmail.com</a></p>
+                <p>Phone: +91 12345 67890</p>
+            </div>
+
+            <!-- Become a Trainer Section -->
+            <div class="become-trainer">
+                <h3>Become a Trainer</h3>
+                <p>Interested in joining our team? Fill out the form below:</p>
+                <form id="trainerForm" action="apply_trainer.php" method="post" enctype="multipart/form-data">
+                    <label for="name">Full Name:</label>
+                    <input type="text" id="name" name="name" placeholder="Your Name" required>
+                
+                    <label for="email">Email Address:</label>
+                    <input type="email" id="email" name="email" placeholder="Your Email" required>
+                
+                    <label for="phone">Phone Number:</label>
+                    <input type="tel" id="phone" name="phone" placeholder="Your Phone Number" required>
+                
+                    <!-- New Fields: City and State -->
+                    <label for="city">City:</label>
+                    <input type="text" id="city" name="city" placeholder="Your City" required>
+                
+                    <label for="state">State:</label>
+                    <input type="text" id="state" name="state" placeholder="Your State" required>
+                
+                    <label for="qualification">Select Your Qualification:</label>
+                    <select id="qualification" name="qualification" required>
+                        <option value="" disabled selected>Select your qualification</option>
+                        <option value="certified-dog-trainer">Certified Dog Trainer (CPDT-KA, CDT, etc.)</option>
+                        <option value="animal-behavior-degree">Degree in Animal Behavior/Science</option>
+                        <option value="vet-tech">Veterinary Technician or Assistant</option>
+                        <option value="experience-only">3+ Years of Hands-On Training Experience</option>
+                        <option value="apprenticeship">Completed Dog Training Apprenticeship</option>
+                        <option value="self-taught">Self-Taught with Documented Success</option>
+                        <option value="other">Other (Specify Below)</option>
+                    </select>
+                
+                    <label for="experience_rating">Experience:</label>
+                    <input type="number" name="experience_rating" id="experience_rating" min="0" max="5" required>
+                
+                    <label for="message">Why do you want to become a trainer?</label>
+                    <textarea id="message" name="message" placeholder="Your Answer" rows="5" required></textarea>
+                
+                    <label for="certification">Upload Certification (Optional):</label>
+                    <input type="file" id="certification" name="certification" accept=".pdf,.jpg,.png">
+                
+                    <button type="submit">Submit Application</button>
+                </form>
+                <p id="response"></p>
+
+                <script>
+                    document.getElementById("trainerForm").addEventListener("submit", function(event) {
+                        event.preventDefault(); // Prevent default form submission
+
+                        const requiredFields = document.querySelectorAll("#trainerForm [required]");
+                        let isValid = true;
+
+                        // Check if all required fields are filled
+                        requiredFields.forEach(field => {
+                            if (!field.value.trim()) {
+                                isValid = false;
+                                field.style.border = "1px solid red"; // Highlight empty fields
+                            } else {
+                                field.style.border = ""; // Reset border if field is filled
+                            }
+                        });
+
+                        // Validate file input separately
+                        const fileInput = document.querySelector("input[name='certification']");
+                        if (fileInput.files.length === 0) {
+                            isValid = false;
+                            alert("Please upload your certification file.");
+                        }
+
+                        if (!isValid) {
+                            alert("Please fill out all required fields.");
+                            return; // Stop form submission
+                        }
+
+                        let formData = new FormData(this);
+
+                        fetch("apply_trainer.php", {
+                            method: "POST",
+                            body: formData
+                        })
+                        .then(response => response.text())
+                        .then(data => {
+                            if (data.includes("Application submitted successfully!")) {
+                                window.location.href = "thank_you.html"; // Redirect on success
+                            } else {
+                                document.getElementById("response").innerHTML = data; // Show error message
+                            }
+                        })
+                        .catch(error => {
+                            console.error("Error:", error);
+                            document.getElementById("response").innerHTML = "An error occurred. Please try again.";
+                        });
+                    });
+                </script>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <p>E-mail: <a href="mailto:pawologycare@gmail.com">pawologycare@gmail.com</a></p>
+            <p>Pawology India</p>
+        </footer>
+    </div>
+</body>
+</html>

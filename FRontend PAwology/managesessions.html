@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Sessions</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Poly', sans-serif;
+            background-color: #FBF3EA;
+            text-align: center;
+        }
+
+        .container {
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: #A2845E;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .header img {
+            height: 100px;
+        }
+
+        .header nav {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+
+        .header nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            text-transform: uppercase;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+        }
+
+        .header nav a:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .header nav a.logout {
+            background: #52453C;
+            padding: 10px 20px;
+            border-radius: 25px;
+        }
+
+        .header nav a.logout:hover {
+            background: #3a332d;
+        }
+
+        .content {
+            width: 90%;
+            max-width: 1000px;
+            margin: 20px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 25px;
+        }
+
+        h2 {
+            font-family: 'Podkova', serif;
+            text-transform: uppercase;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            padding: 12px;
+            border: 1px solid #A2845E;
+            text-align: center;
+        }
+
+        th {
+            background: #D4BBA3;
+            font-size: 18px;
+        }
+
+        button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            text-transform: uppercase;
+        }
+
+        .approve {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .approve:hover {
+            background: #45a049;
+        }
+
+        .reject {
+            background: #D9534F;
+            color: white;
+        }
+
+        .reject:hover {
+            background: #c9302c;
+        }
+
+        .footer {
+            background: #A2845E;
+            padding: 20px;
+            text-align: center;
+            color: white;
+            width: 100%;
+            margin-top: auto;
+        }
+
+        .footer a {
+            color: #FBF3EA;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            color: #E3DFD6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <img src="logo.png" alt="Pawology Logo">
+            <nav>
+                <a href="/test/homepage.html">Home</a>
+                <a href="/test/pdogtrain.html">Personalized Dog Training</a>
+                <a href="connect.html">Connect</a>
+                <a href="/test/logout.html" class="logout">Logout</a>
+            </nav>
+        </header>
+
+        <div class="content">
+            <h2>Manage Training Sessions</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Phone</th>
+                        <th>City</th>
+                        <th>State</th>
+                        <th>Address</th>
+                        <th>Date</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="bookingRequests"></tbody>
+            </table>
+        </div>
+
+        <footer class="footer">
+            <p>E-mail: <a href="mailto:pawologycare@gmail.com">pawologycare@gmail.com</a></p>
+            <p>Pawology India</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            fetch("fetch_requests.php")
+                .then(response => response.json())
+                .then(data => {
+                    let table = document.getElementById("bookingRequests");
+                    data.forEach(request => {
+                        let row = table.insertRow();
+                        row.innerHTML = `
+                            <td>${request.phone_number}</td>
+                            <td>${request.city}</td>
+                            <td>${request.state}</td>
+                            <td>${request.address}</td>
+                            <td>${request.date}</td>
+                            <td>
+                                <button class="approve" onclick="updateStatus(${request.booking_id}, 'accepted')">Approve</button>
+                                <button class="reject" onclick="updateStatus(${request.booking_id}, 'rejected')">Reject</button>
+                            </td>
+                        `;
+                    });
+                });
+        });
+
+        function updateStatus(bookingId, status) {
+    const trainerId = 1; // Replace with actual trainer ID from session
+    fetch("update_booking_status.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: `id=${bookingId}&status=${status}&trainer_id=${trainerId}`
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert(data.message);
+            location.reload(); // Refresh the page to reflect changes
+        } else {
+            alert("Error: " + data.error);
+        }
+    })
+    .catch(error => {
+        console.error("Error:", error);
+        alert("An error occurred. Please try again.");
+    });
+}
+    </script>
+</body>
+</html>

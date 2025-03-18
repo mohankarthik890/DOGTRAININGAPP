@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Package</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Poly', sans-serif;
+            background-color: #FBF3EA;
+            text-align: left;
+        }
+        .container {
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .header {
+            background: #A2845E;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+        .header img {
+            height: 100px;
+        }
+        .header nav {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+        .header nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            text-transform: uppercase;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+        }
+        .header nav a:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        .header nav a.logout {
+            background: #52453C;
+            padding: 10px 20px;
+            border-radius: 25px;
+        }
+        .header nav a.logout:hover {
+            background: #3a332d;
+        }
+        .package-container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 20px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 25px;
+        }
+        .package-header {
+            text-align: center;
+            font-size: 30px;
+            font-family: Podkova;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+        .package {
+            background: #FBF3EA;
+            padding: 15px;
+            border-radius: 20px;
+            margin: 10px 0;
+            text-align: center;
+            font-size: 20px;
+            font-family: Playfair Display SC;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            cursor: pointer;
+        }
+        .package.selected {
+            background: #D4BBA3;
+        }
+        .book-button {
+            display: block;
+            width: 200px;
+            background: #BCA898;
+            padding: 15px;
+            text-align: center;
+            border-radius: 25px;
+            font-size: 25px;
+            text-transform: uppercase;
+            margin: 20px auto;
+            cursor: pointer;
+        }
+        .book-button-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .footer {
+            background: #A2845E;
+            padding: 20px;
+            text-align: center;
+            color: white;
+            width: 100%;
+            margin-top: auto;
+        }
+        .footer a {
+            color: #FBF3EA;
+            text-decoration: none;
+        }
+        .footer a:hover {
+            color: #E3DFD6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <img src="logo.png" alt="Pawology Logo">
+            <nav>
+                <a href="/test/homepage.html">Home</a>
+                <a href="/test/pdogtrain.html">Personalized Dog Training</a>
+                <a href="connect.html">Connect</a>
+                <a href="/test/logout.html" class="logout">Logout</a>
+            </nav>
+        </header>
+        
+        <div class="package-container">
+            <div class="package-header">Select Your Package</div>
+            <div class="package" data-id="p1" data-price="3500">Puppy Training<br>Sessions: 12<br>Package Price: 7500/-</div>
+            <div class="package" data-id="p2" data-price="4500">Behavioural Training<br>Sessions: 12<br>Package Price: 9500/-</div>
+            <div class="package" data-id="p3" data-price="5500">Specialized Skill Training<br>Sessions: 12<br>Package Price: 11500/-</div>
+            
+            <div class="book-button-container">
+                <button type="button" class="book-button" onclick="bookPackage()">Book</button>
+            </div>
+        </div>
+        
+        
+        <footer class="footer">
+            <p>E-mail: <a href="mailto:pawologycare@gmail.com">pawologycare@gmail.com</a></p>
+            <p>Pawology India</p>
+        </footer>
+    </div>
+    
+    <script>
+        let selectedPackage = null;
+        let selectedPackageId = null;
+document.querySelectorAll('.package').forEach(pkg => {
+    pkg.addEventListener('click', function() {
+        document.querySelectorAll('.package').forEach(p => p.classList.remove('selected'));
+        this.classList.add('selected');
+        selectedPackageId = this.getAttribute('data-id'); // Using data-id instead of name
+    });
+});
+
+function bookPackage() {
+    if (selectedPackageId) {
+        const queryParams = new URLSearchParams(window.location.search);
+        const state = queryParams.get('state');
+        const city = queryParams.get('city');
+        const phone = queryParams.get('phone');
+        const address = queryParams.get('address');
+        const date = queryParams.get('date');
+
+        const bookingData = {
+            state: state,
+            city: city,
+            phone: phone,
+            address: address,
+            date: date,
+            package_name: selectedPackageId, // Stores as p1, p2, p3 in DB
+            package_price: document.querySelector('.package.selected').getAttribute('data-price')
+        };
+
+        fetch('process_booking.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(bookingData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                window.location.href = 'tq.html';
+            } else {
+                alert('Booking failed: ' + data.error);  // Show actual SQL error
+            }
+        });
+    } else {
+        alert('Please select a package before booking.');
+    }
+}
+
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pawology India - Trainer Dashboard</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Poly', sans-serif;
+            background: white;
+            background-image: url("image\ 8.png");
+            background-size: contain;
+        }
+
+        .container {
+            margin: 0 auto;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background: #A2845E;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .header img {
+            height: 100px;
+            width: auto;
+        }
+
+        .header nav {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+
+        .header nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            text-transform: uppercase;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+        }
+
+        .header nav a:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .header nav a.logout {
+            background: #52453C;
+            padding: 10px 20px;
+            border-radius: 25px;
+        }
+
+        .header nav a.logout:hover {
+            background: #3a332d;
+        }
+
+        /* Trainer Options */
+        .trainer-options {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            padding: 20px;
+            background: #E6DDD6;
+            border-radius: 20px;
+            margin: 20px;
+            flex: 1;
+        }
+
+        .trainer-options .option {
+            background: #A2845E;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            width: 220px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .trainer-options .option:hover {
+            background: #52453C;
+        }
+
+        .trainer-options .option h3 {
+            margin: 0;
+            font-size: 18px;
+            text-transform: uppercase;
+        }
+
+        /* Footer */
+        .footer {
+            background: #A2845E;
+            padding: 20px;
+            text-align: center;
+            color: white;
+            width: 100%;
+        }
+
+        .footer a {
+            color: #FBF3EA;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        .footer a:hover {
+            color: #E3DFD6;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .header nav {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .trainer-options {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <img src="logo.png" alt="Pawology Logo">
+            <nav>
+                <a href="#">Home</a>
+                <a href="#">Personalized Dog Training</a>
+                <a href="#">Connect</a>
+                <a href="/test/logout.html" class="logout">Logout</a>
+            </nav>
+        </header>
+              <h1>Welcome Trainer !</h1>
+        <!-- Trainer Options Section -->
+        <section class="trainer-options">
+            <div class="option" onclick="window.location.href='trainreq.html'">
+                <h3>Trainer Requests</h3>
+                <p>Accept or Reject Trainer Requests</p>
+            </div>
+            <div class="option" onclick="window.location.href=''">
+                <h3>Availability</h3>
+                <p>Toggle your availability</p>
+            </div>
+            <div class="option" onclick="window.location.href='view-dogs.html'">
+                <h3>Assigned Dogs</h3>
+                <p>View assigned dogs for training</p>
+            </div>
+            <div class="option" onclick="window.location.href='managesessions.html'">
+                <h3>Manage Sessions</h3>
+                <p>Manage training schedules</p>
+            </div>
+            <div class="option" onclick="window.location.href='trainer-profile.html'">
+                <h3>Update Profile</h3>
+                <p>Modify your details</p>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <p>E-mail: <a href="mailto:pawologycare@gmail.com">pawologycare@gmail.com</a></p>
+            <p>Pawology India</p>
+        </footer>
+    </div>
+
+    <script>
+        function toggleAvailability() {
+            alert("Availability Toggled!");
+            // In real application, send an AJAX request to update availability status in the backend
+        }
+    </script>
+</body>
+</html>

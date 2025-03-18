@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forgot Password</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            font-family: Poppins, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: rgb(233, 203, 169);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .ForgotPassword {
+            width: 400px;
+            padding: 30px;
+            background: white;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            text-align: center;
+        }
+        .ForgotPassword img {
+            width: 150px;
+            margin-bottom: 20px;
+        }
+        .ForgotPasswordText {
+            font-size: 24px;
+            font-weight: 500;
+            color: #A2845E;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+        .input-container {
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .input-box {
+            width: 100%;
+            height: 45px;
+            padding: 0 10px;
+            background: rgba(196, 196, 196, 0);
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+            border-radius: 12px;
+            border: 1px solid rgba(0, 0, 0, 0.25);
+            font-size: 14px;
+            text-align: center;
+            outline: none;
+        }
+        .button {
+            width: 100%;
+            height: 45px;
+            background: #A2845E;
+            box-shadow: 0px 4px 10px rgba(233, 68, 75, 0.25);
+            border-radius: 12px;
+            text-align: center;
+            line-height: 45px;
+            color: white;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+        .button:hover {
+            background: #8c6d4a;
+        }
+        .message {
+            margin-top: 10px;
+            font-size: 14px;
+            color: red;
+        }
+        #otpSection {
+            display: none;
+            margin-top: 20px;
+        }
+        .otp-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .otp-box {
+            width: 50px;
+            height: 50px;
+            text-align: center;
+            font-size: 20px;
+            border: 1px solid rgba(0, 0, 0, 0.25);
+            border-radius: 8px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+        }
+    </style>
+</head>
+<body>
+
+<div class="ForgotPassword">
+    <img src="logo.png" alt="Logo">
+    <div class="ForgotPasswordText">Forgot Password</div>
+
+    <div class="input-container">
+        <input type="email" id="email" class="input-box" placeholder="Enter your email">
+    </div>
+
+    <div class="button" id="sendOtp">SEND OTP</div>
+
+    <div id="otpSection">
+        <div class="ForgotPasswordText">Enter OTP</div>
+        <div class="otp-container">
+            <input type="text" class="otp-box" maxlength="1">
+            <input type="text" class="otp-box" maxlength="1">
+            <input type="text" class="otp-box" maxlength="1">
+            <input type="text" class="otp-box" maxlength="1">
+        </div>
+        <div class="button" id="verifyOtp">VERIFY OTP</div>
+    </div>
+
+    <div class="message" id="message"></div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#sendOtp').click(function () {
+            let email = $('#email').val().trim();
+            if (email === '') {
+                $('#message').text('Please enter your email').css('color', 'red');
+                return;
+            }
+
+            $.ajax({
+                url: 'sendotp.php',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ email: email }),
+                success: function (response) {
+                    if (response.success) {
+                        $('#message').text('OTP sent successfully!').css('color', 'green');
+                        $('#otpSection').show();
+                        sessionStorage.setItem('email', email);
+                    } else {
+                        $('#message').text(response.message).css('color', 'red');
+                    }
+                },
+                error: function () {
+                    $('#message').text('Error sending OTP. Please try again.').css('color', 'red');
+                }
+            });
+        });
+
+        $('#verifyOtp').click(function () {
+            let email = sessionStorage.getItem('email');
+            let otp = $('.otp-box').map(function () { return this.value; }).get().join('');
+
+            if (otp.length < 4) {
+                $('#message').text('Please enter a valid 4-digit OTP').css('color', 'red');
+                return;
+            }
+            
+
+            $.ajax({
+                url: 'verifyotp.php',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ email: email, otp: otp }),
+                success: function (response) {
+                    if (response.success) {
+                        $('#message').text('OTP verified! Redirecting...').css('color', 'green');
+                        setTimeout(() => {
+                            window.location.href = 'confpass.html';
+                        }, 2000);
+                    } else {
+                        $('#message').text(response.message).css('color', 'red');
+                    }
+                },
+                error: function () {
+                    $('#message').text('Error verifying OTP. Please try again.').css('color', 'red');
+                }
+            });
+        });
+    });
+</script>
+
+</body>
+</html>

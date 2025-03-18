@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Training Review</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Poly', sans-serif;
+            background-color: #FDF6E8;
+            min-height: 100vh;
+            display: flex;
+            background-image: url("image 8.png");
+            flex-direction: column;
+        }
+
+        .header {
+            background: #A2845E;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .header img {
+            height: 100px;
+        }
+
+        .header nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 18px;
+            text-transform: uppercase;
+            padding: 10px 15px;
+            border-radius: 5px;
+        }
+
+        .header nav a:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .header nav a.logout {
+            background: #52453C;
+            padding: 10px 20px;
+            border-radius: 25px;
+        }
+
+        .header nav a.logout:hover {
+            background: #3a332d;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            background: #e8dac9;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #5A4333;
+        }
+
+        .question {
+            margin-bottom: 15px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        textarea, select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border-radius: 5px;
+            border: 1px solid #C1A486;
+            background: #fff;
+        }
+
+        button {
+            background: #A2845E;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            width: 100%;
+            font-weight: bold;
+            display: block;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background: #8B6D4D;
+        }
+
+        .footer {
+            background: #A2845E;
+            padding: 20px;
+            text-align: center;
+            color: white;
+            margin-top: auto;
+        }
+
+        .footer a {
+            color: #FBF3EA;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            color: #E3DFD6;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <img src="logo.png" alt="Pawology Logo">
+        <nav>
+            <a href="/test/homepage.html">Home</a>
+            <a href="connect.html">Connect</a>
+            <a href="/test/logout.html" class="logout">Logout</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h2>Training Review</h2>
+
+        <!-- Dynamic Questions Based on Training Method -->
+        <div id="questions"></div>
+
+        <div class="question">Rating (out of 5):</div>
+        <select id="rating">
+            <option value="5">5 - Excellent</option>
+            <option value="4">4 - Very Good</option>
+            <option value="3">3 - Good</option>
+            <option value="2">2 - Fair</option>
+            <option value="1">1 - Poor</option>
+        </select>
+
+        <button onclick="submitReview()">Submit Review</button>
+    </div>
+
+    <footer class="footer">
+        <p>E-mail: <a href="mailto:pawologycare@gmail.com">pawologycare@gmail.com</a></p>
+        <p>Pawology India</p>
+    </footer>
+
+    <script>
+        // Function to extract URL parameters
+        function getParameterByName(name, url = window.location.href) {
+            name = name.replace(/[\[\]]/g, '\\$&');
+            let regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        }
+
+        // Get the method_id from the URL
+        const methodId = getParameterByName('method_id');
+
+        // Function to generate questions based on the training method
+        function generateQuestions(methodId) {
+            const questionsDiv = document.getElementById('questions');
+            let questionsHTML = '';
+
+            if (methodId === '1') {
+                questionsHTML = `
+                    <div class="question">1. Was the puppy training easy to follow?</div>
+                    <textarea id="question1" rows="3" placeholder="Write your feedback..."></textarea>
+
+                    <div class="question">2. Did your puppy respond well to the training?</div>
+                    <textarea id="question2" rows="3" placeholder="Write your feedback..."></textarea>
+
+                    <div class="question">3. What improvements would you suggest for puppy training?</div>
+                    <textarea id="question3" rows="3" placeholder="Write your feedback..."></textarea>
+                `;
+            } else if (methodId === '2') {
+                questionsHTML = `
+                    <div class="question">1. Was the behavioral training easy to follow?</div>
+                    <textarea id="question1" rows="3" placeholder="Write your feedback..."></textarea>
+
+                    <div class="question">2. Did your dog respond well to the behavioral training?</div>
+                    <textarea id="question2" rows="3" placeholder="Write your feedback..."></textarea>
+
+                    <div class="question">3. What improvements would you suggest for behavioral training?</div>
+                    <textarea id="question3" rows="3" placeholder="Write your feedback..."></textarea>
+                `;
+            } else if (methodId === '3') {
+                questionsHTML = `
+                    <div class="question">1. Was the specialized training easy to follow?</div>
+                    <textarea id="question1" rows="3" placeholder="Write your feedback..."></textarea>
+
+                    <div class="question">2. Did your dog respond well to the specialized training?</div>
+                    <textarea id="question2" rows="3" placeholder="Write your feedback..."></textarea>
+
+                    <div class="question">3. What improvements would you suggest for specialized training?</div>
+                    <textarea id="question3" rows="3" placeholder="Write your feedback..."></textarea>
+                `;
+            } else {
+                questionsHTML = `<p>Invalid training method.</p>`;
+            }
+
+            questionsDiv.innerHTML = questionsHTML;
+        }
+
+        // Generate questions based on the method_id
+        generateQuestions(methodId);
+
+        // Function to submit the review
+        function submitReview() {
+            const question1 = document.getElementById('question1').value;
+            const question2 = document.getElementById('question2').value;
+            const question3 = document.getElementById('question3').value;
+            const rating = document.getElementById('rating').value;
+
+            fetch('submit_review.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ question1, question2, question3, rating, methodId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert("Review submitted successfully!");
+                    window.location.href = "homepage.html";
+                } else {
+                    alert("Failed to submit review.");
+                }
+            })
+            .catch(error => console.error("Error:", error));
+        }
+
+    </script>
+
+</body>
+</html>

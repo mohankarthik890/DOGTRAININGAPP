@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile - Pawology India</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Poly', sans-serif;
+            background-image: 'image 8.png' ;
+            background: white;
+        }
+
+        .container {
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            align-items: center;
+        }
+
+        /* Header Styling */
+        .header {
+            background: #A2845E;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .header img {
+            height: 100px;
+            width: auto; /* Ensure the logo maintains its aspect ratio */
+        }
+
+        .header nav {
+            display: flex;
+            align-items: center;
+            gap: 50px; /* Add gap between navigation links */
+        }
+
+        .header nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            text-transform: uppercase;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+        }
+
+        .header nav a:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .header nav a.logout {
+            background: #52453C; /* Dark brown background for logout */
+            padding: 10px 20px;
+            border-radius: 25px;
+        }
+
+        .header nav a.logout:hover {
+            background: #3a332d; /* Darker brown on hover */
+        }
+
+        /* Profile Section */
+        .profile-section {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px;
+            background: #E6DDD6;
+            border-radius: 20px;
+            margin: 20px;
+            width: 80%; /* Adjust width as needed */
+        }
+
+        .profile-fields {
+            flex: 1;
+            margin-right: 20px; /* Add spacing between fields and photo */
+        }
+
+        .profile-fields input, .profile-fields textarea {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .profile-fields button {
+            background: #52453C;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .profile-fields button:hover {
+            background: #3a332d;
+        }
+
+        .profile-photo {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .profile-photo img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .profile-photo button {
+            background: #52453C;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+        }
+
+        .profile-photo button:hover {
+            background: #3a332d;
+        }
+
+        /* Footer Styling */
+        .footer {
+            background: #A2845E;
+            padding: 20px;
+            text-align: center;
+            color: white;
+            width: 100%;
+            position: fixed; /* Fix the footer to the bottom of the viewport */
+            bottom: 0; /* Align it to the bottom */
+            left: 0; /* Ensure it spans the entire width */
+        }
+
+        .footer a {
+            color: #FBF3EA;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        .footer a:hover {
+            color: #E3DFD6;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .header nav {
+                flex-direction: column;
+                gap: 10px; /* Adjust gap for mobile view */
+            }
+
+            .header nav a {
+                display: block;
+                margin: 5px 0;
+            }
+
+            .profile-section {
+                flex-direction: column;
+                width: 90%; /* Adjust width for mobile view */
+            }
+
+            .profile-fields {
+                margin-right: 0;
+                margin-bottom: 20px; /* Add spacing between fields and photo */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <img src="logo.png" alt="Pawology Logo">
+            <nav>
+                <a href="/test/homepage.html">Home</a>
+                <a href="/test/logout.html" class="logout">Logout</a>
+            </nav>
+        </header>
+
+        <!-- Profile Section -->
+        <section class="profile-section">
+            <!-- Left Column: Input Fields -->
+            <div class="profile-fields">
+                <input type="text" id="username" placeholder="Username">
+                <input type="email" id="email" placeholder="Email">
+                <input type="text" id="City" placeholder="City">
+                <input type="text" id="member-since" placeholder="Member Since" disabled>
+                <textarea id="about-me" placeholder="About Me"></textarea>
+                <button id="edit-profile">Edit Profile</button>
+            </div>
+
+            <!-- Right Column: Profile Photo Viewer -->
+            <div class="profile-photo">
+                <img id="profile-image" src="default-profile.png" alt="Profile Picture" width="200" height="200">
+                <input type="file" id="profile-image-upload" accept="image/*" style="display: none;">
+                <button onclick="document.getElementById('profile-image-upload').click()">Update Profile Image</button>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>E-mail: <a href="mailto:pawologycare@gmail.com">pawologycare@gmail.com</a></p>
+            <p>Pawology India</p>
+        </footer>
+    </div>
+
+    <script>
+   async function fetchUserProfile() {
+    // Retrieve user_id from localStorage
+    const userId = localStorage.getItem('user_id');
+
+    if (!userId) {
+        alert('User ID not found. Please log in again.');
+        window.location.href = 'login.html'; // Redirect to login page
+        return;
+    }
+
+    try {
+        const response = await fetch(`http://localhost/test/profile.php?action=getuserprofile&user_id=${userId}`);
+        if (!response.ok) throw new Error('Failed to fetch user profile');
+        const user = await response.json();
+
+        // Populate profile fields
+        document.getElementById('username').value = user.username;
+        document.getElementById('email').value = user.email;
+        document.getElementById('member-since').value = user.created_at;
+        document.getElementById('about-me').value = user.about_me || '';
+        if (user.profile_image_path) {
+            document.getElementById('profile-image').src = user.profile_image_path;
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Failed to fetch user profile');
+    }
+}
+
+// Call the function when the page loads
+window.onload = fetchUserProfile;
+
+// Call the function when the page loads
+window.onload = fetchUserProfile;
+
+// Call the function when the page loads
+window.onload = fetchUserProfile;
+        document.getElementById('edit-profile').addEventListener('click', async () => {
+            const userData = {
+                user_id: 1,
+                username: document.getElementById('username').value,
+                email: document.getElementById('email').value,
+                about_me: document.getElementById('about-me').value
+            };
+            try {
+                const response = await fetch('/profile.php/updateUserProfile', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(userData)
+                });
+                if (!response.ok) throw new Error('Failed to update profile');
+                alert('Profile updated successfully');
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Failed to update profile');
+            }
+        });
+
+        // Handle profile image upload
+        document.getElementById('profile-image-upload').addEventListener('change', function (event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    document.getElementById('profile-image').src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        fetchUserProfile();
+    </script>
+</body>
+</html>

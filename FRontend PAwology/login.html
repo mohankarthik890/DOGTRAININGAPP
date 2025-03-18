@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            width: 1440px;
+            height: 1024px;
+            position: relative;
+            background: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 50px;
+        }
+
+        .images {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .images img {
+            border-radius: 20px;
+        }
+
+        .login-form {
+            width: 400px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .login-form h1 {
+            color: #A2845E;
+            font-size: 34px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1.02px;
+            margin: 0;
+        }
+
+        .login-form p {
+            color: #A2845E;
+            font-size: 14px;
+            font-weight: 400;
+            letter-spacing: 0.42px;
+            margin: 0;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .form-group label {
+            color: #A2845E;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            height: 40px;
+            padding: 0 10px;
+            border-radius: 12px;
+            border: 1px solid rgba(0, 0, 0, 0.25);
+        }
+
+        .login-button, .forgot-password {
+            width: 100%;
+            height: 41.45px;
+            background: #A2845E;
+            border-radius: 12px;
+            border: none;
+            color: white;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .forgot-password {
+            background: none;
+            color: #A2845E;
+            text-decoration: underline;
+            border: none;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="images">
+            <img src="image 5.png" alt="Image 1" style="width: 820px; height: 545px;">
+            <div style="display: flex; gap: 20px;">
+                <img src="image 6.png" alt="Image 3" style="width: 353px; height: 405px;">
+                <img src="image 2.png" alt="Image 2" style="width: 438px; height: 405px;">
+            </div>
+        </div>
+
+        <div class="login-form">
+          <img src="logo.png" alt="Logo" style="width: 150px; height: auto; margin: 0 auto; display: block;">
+            <h1>LOGIN</h1>
+            <p>Welcome back! Please enter your details.</p>
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input id="email" type="email" placeholder="Enter your email">
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input id="password" type="password" placeholder="**********">
+            </div>
+
+            <button id="loginButton" class="login-button">Sign in</button>
+            <button id="forgotPassword" class="forgot-password">Forgot Password?</button>
+        </div>
+    </div>
+
+    <script>
+    document.getElementById('loginButton').addEventListener('click', function () {
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value.trim();
+
+    if (!email || !password) {
+        alert('Please fill in all fields.');
+        return;
+    }
+
+    fetch('http://localhost/test/api.php/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: `email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`,
+    })
+    .then(response => response.json())
+    .then(result => {
+        console.log('Server Response:', result);
+        if (result.message === "Login successful") {
+            // Store login status and user_id in localStorage
+            localStorage.setItem('isLoggedIn', true);
+            localStorage.setItem('user_id', result.user_id); // Store user_id
+            console.log('user_id stored in localStorage:', result.user_id); // Debugging
+            alert('Login successful!');
+
+            // Redirect based on role
+            if (result.role === "admin") {
+                window.location.href = 'adminhome.html';
+            } else if (result.role === "trainer") {
+                window.location.href = 'trainerhome.html';
+            } else if (result.role === "user") {
+                window.location.href = 'homepage.html';
+            }
+        } else {
+            alert('Login failed: ' + (result.error || 'Invalid credentials'));
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred. Please try again.');
+    });
+});
+  </script>
+  
+</body>
+</html>

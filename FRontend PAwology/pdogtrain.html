@@ -1,0 +1,234 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personalized Dog Training</title>
+    <style>
+       body {
+            margin: 0;
+            font-family: 'Poly', sans-serif;
+            background: #FDF6E8 url("./image 8.png") no-repeat center center;
+            background-size: contain;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header Styling */
+        .header {
+            background: #A2845E;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .header img {
+            height: 100px;
+            width: auto; /* Ensure the logo maintains its aspect ratio */
+        }
+
+        .header nav {
+            display: flex;
+            align-items: center;
+            gap: 50px; /* Add gap between navigation links */
+        }
+
+        .header nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            text-transform: uppercase;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+        }
+
+        .header nav a:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .header nav a.logout {
+            background: #52453C;
+            padding: 10px 20px;
+            border-radius: 25px;
+        }
+
+        .header nav a.logout:hover {
+            background: #3a332d;
+        }
+
+        /* Form Container Styling */
+        .form-container {
+            padding-top: 80px;
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .form {
+            background-color: #e8dac9;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        h1 {
+            color: #5A4333;
+            font-size: 24px;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            text-align: left;
+            color: #5A4333;
+        }
+
+        input[type="text"],
+        select {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border: 1px solid #C1A486;
+            border-radius: 5px;
+        }
+
+        button {
+            background: #A2845E;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background: #8B6D4D;
+        }
+
+        /* Footer Styling */
+        .footer {
+            background: #A2845E;
+            padding: 20px;
+            text-align: center;
+            color: white;
+            width: 100%;
+        }
+
+        .footer a {
+            color: #FBF3EA;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        .footer a:hover {
+            color: #E3DFD6;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .header nav {
+                flex-direction: column;
+                gap: 10px; /* Adjust gap for mobile view */
+            }
+
+            .header nav a {
+                display: block;
+                margin: 5px 0;
+            }
+
+            .form-container {
+                padding: 10px;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <img src="logo.png" alt="Pawology Logo">
+            <nav>
+                <a href="/test/homepage.html">Home</a>
+                <a href="#">Personalized Dog Training</a>
+                <a href="connect.html">Connect</a>
+                <a href="#">My Orders</a>
+                <a href="/test/logout.html" class="logout">Logout</a>
+            </nav>
+        </header>
+
+        <section class="form-container">
+            <div class="form">
+                <h1>Personalized Dog Training</h1>
+                <form id="training-form">
+                    <label for="dog-breed">Enter Your Dog Breed</label>
+                    <input type="text" id="breed_name" name="breed_name" placeholder="e.g., Labrador Retriever" required>
+                    
+                    <label for="training-type">Training You Needed</label>
+                    <select id="method_name" name="training_method" required>
+                        <option value="" disabled selected>Select Training Type</option>
+                        <option value="puppy training">Puppy Training</option>
+                        <option value="behavioural training">behavioural Training</option>
+                        <option value="specialized training">Specialized Training</option>
+                    </select>
+
+                    <button type="submit">Get Your Personalized Training</button>
+                </form>
+                <div id="response-message"></div>
+            </div>
+        </section>
+    </div>
+
+    <footer class="footer">
+        <p>E-mail: <a href="mailto:pawologycare@gmail.com">pawologycare@gmail.com</a></p>
+        <p>Pawology India</p>
+    </footer>
+
+    <script>
+       document.getElementById("training-form").addEventListener("submit", function(event) {
+    event.preventDefault();
+    
+    // Get breed and method from the form
+    const breedName = document.getElementById("breed_name").value;
+    const methodName = document.getElementById("method_name").value;
+
+    // Make the API call to get breed_id and method_id
+    fetch(`getids.php?breed_name=${encodeURIComponent(breedName)}&method_name=${encodeURIComponent(methodName)}`)
+        .then(response => response.json())
+        .then(data => {
+            console.log(data)
+            if (data.breed_id && data.method_id) {
+                // Redirect to trainoptions.html with breed_id and method_id as query parameters
+                window.location.href = `trainoptions.html?breed_id=${data.breed_id}&method_id=${data.method_id}`;
+            } else {
+                alert("Breed or method not found.",data.breed_id);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('There was an error fetching the breed and method IDs.');
+        });
+});
+    </script>
+</body>
+</html>

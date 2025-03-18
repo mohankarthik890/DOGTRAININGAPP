@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>In-Person Training</title>
+    <style>
+        body {
+            background-image: url('image8.png');
+            margin: 0;
+            font-family: 'Poly', sans-serif;
+            background-color: #FDF5E6;
+            background-size: cover;
+            text-align:left;
+        }
+
+        .container {
+            margin: 0 auto;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: #A2845E;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .header img {
+            height: 100px;
+            width: auto;
+        }
+
+        .header nav {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+
+        .header nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            text-transform: uppercase;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+        }
+
+        .header nav a:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .header nav a.logout {
+            background: #52453C;
+            padding: 10px 20px;
+            border-radius: 25px;
+        }
+
+        .header nav a.logout:hover {
+            background: #3a332d;
+        }
+
+        .content {
+            margin: 20px auto;
+            width: 60%;
+            background: #f0e6d6;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+            flex: 1;
+        }
+
+        .title {
+            background: #dcc8a9;
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .form-group {
+            display: flex;
+            justify-content: space-between;
+            margin: 15px 0;
+        }
+
+        .form-group div {
+            width: 48%;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #aaa;
+            border-radius: 5px;
+            margin-top: 5px;
+        }
+
+        .info-box {
+            background: #3d3d3d;
+            color: white;
+            padding: 15px;
+            width: 250px;
+            border-radius: 10px;
+            position: absolute;
+            top: 150px;
+            right: 50px;
+            text-align: left;
+        }
+
+        .info-box img {
+            width: 80px;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .button {
+            background: #d4a76a;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .footer {
+            background: #A2845E;
+            padding: 20px;
+            text-align: center;
+            color: white;
+            width: 100%;
+        }
+
+        .footer a {
+            color: #FBF3EA;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        .footer a:hover {
+            color: #E3DFD6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <img src="logo.png" alt="Pawology Logo">
+            <nav>
+                <a href="/test/homepage.html">Home</a>
+                <a href="/test/pdogtrain.html">Personalized Dog Training</a>
+                <a href="connect.html">Connect</a>
+                <a href="/test/logout.html" class="logout">Logout</a>
+            </nav>
+        </header>
+
+        <div class="content">
+            <div class="title">IN-PERSON TRAINING</div>
+            <h2>FILL OUT THE FIELDS</h2>
+
+            <form action="process_booking.php" method="POST">
+                <div class="form-group">
+                    <div>
+                        <label for="state">State</label>
+                        <input type="text" id="state" name="state" required>
+                    </div>
+                    <div>
+                        <label for="phone">Phone Number</label>
+                        <input type="text" id="phone" name="phone" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div>
+                        <label for="city">City</label>
+                        <input type="text" id="city" name="city" required>
+                    </div>
+                    <div>
+                        <label for="address">Address</label>
+                        <input type="text" id="address" name="address" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div>
+                        <label for="date">Day / Date</label>
+                        <input type="date" id="date" name="date" required>
+                    </div>
+                </div>
+                <button type="button" class="button" onclick="proceedToPackageSelection()">PROCEED</button>
+
+                <script>
+                    function proceedToPackageSelection() {
+                        const state = document.getElementById('state').value;
+                        const city = document.getElementById('city').value;
+                        const phone = document.getElementById('phone').value;
+                        const address = document.getElementById('address').value;
+                        const date = document.getElementById('date').value;
+                
+                        const queryParams = new URLSearchParams({
+                            state: state,
+                            city: city,
+                            phone: phone,
+                            address: address,
+                            date: date
+                        }).toString();
+                
+                        window.location.href = `selpackage.html?${queryParams}`;
+                    }
+                </script>
+
+            </form>
+        </div>
+
+        <div class="info-box">
+            <img src="puppy.png" alt="Puppy Icon">
+            <h3>Why Puppy Training ???</h3>
+            <ul>
+                <li>Stronger bond: Build trust and communication with your puppy.</li>
+                <li>Good behavior: Prevent future behavioral issues early.</li>
+                <li>Happy home: Reduce stress with a well-trained pet.</li>
+            </ul>
+        </div>
+
+        <footer class="footer">
+            <p>E-mail: <a href="mailto:pawologycare@gmail.com">pawologycare@gmail.com</a></p>
+            <p>Pawology India</p>
+        </footer>
+    </div>
+</body>
+</html>
